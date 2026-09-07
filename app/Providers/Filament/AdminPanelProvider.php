@@ -49,10 +49,14 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
                 \App\Filament\Widgets\InventoryOverview::class,
+                \App\Filament\Widgets\StockMovementsChart::class,
                 \App\Filament\Widgets\LowStockWidget::class,
             ])
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::HEAD_END,
+                fn () => '<link rel="stylesheet" href="' . asset('css/admin-theme.css') . '">',
+            )
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

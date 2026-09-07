@@ -1,0 +1,59 @@
+/* Pulido visual del panel — mantiene la base de Filament (accesibilidad,
+   dark mode, componentes) y solo afina tarjetas, sombras y acentos para
+   que se sienta cohesivo con la landing/registro/login. */
+
+/* Tarjetas de estadísticas del dashboard: sombra más suave, esquina más
+   redondeada, y una barra de color a la izquierda tomada del color que
+   cada Stat ya declara (success/danger/primary/warning). */
+.fi-wi-stats-overview-stat {
+    border-radius: 1rem !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.10) !important;
+    border-left-width: 3px !important;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.fi-wi-stats-overview-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(15, 23, 42, 0.06), 0 16px 32px -16px rgba(15, 23, 42, 0.16) !important;
+}
+
+.fi-wi-stats-overview-stat[style*="success"],
+.fi-wi-stats-overview-stat:has(.fi-color-success) {
+    border-left-color: rgb(16 185 129) !important;
+}
+
+.fi-wi-stats-overview-stat:has(.fi-color-danger) {
+    border-left-color: rgb(244 63 94) !important;
+}
+
+.fi-wi-stats-overview-stat:has(.fi-color-primary) {
+    border-left-color: rgb(245 158 11) !important;
+}
+
+.fi-wi-stats-overview-stat-value {
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+}
+
+/* Secciones/tarjetas generales (tablas de widgets, formularios) */
+.fi-section {
+    border-radius: 1rem !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Sidebar: resalta el item activo con un acento ámbar más marcado */
+.fi-sidebar-item-active .fi-sidebar-item-button {
+    box-shadow: inset 3px 0 0 rgb(245 158 11);
+    background: linear-gradient(90deg, rgba(245, 158, 11, 0.10), transparent) !important;
+}
+
+/* Botón primario: leve sombra cálida coherente con la landing */
+.fi-btn.fi-color-primary {
+    box-shadow: 0 4px 12px -4px rgba(245, 158, 11, 0.45);
+}
+
+/* Cabecera de tablas: un poco más de peso visual */
+.fi-ta-header-cell {
+    font-weight: 700 !important;
+    letter-spacing: 0.02em;
+}
