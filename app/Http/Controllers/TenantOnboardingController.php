@@ -78,20 +78,45 @@ class TenantOnboardingController extends Controller
     public function login(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'company' => ['required', 'string', 'max:80'],
+            'email' => ['required', 'email', 'max:150'],
         ]);
 
-        $slug = Str::slug($validated['company']);
-        $tenant = Tenant::find($slug);
+        $tenant = $this->findTenantForEmail($validated['email']);
 
         if (! $tenant) {
-            return back()->withErrors(['company' => 'No encontramos un espacio de trabajo con ese nombre.'])->withInput();
+            return back()
+                ->withErrors(['email' => 'No encontramos ninguna cuenta con ese correo.'])
+                ->withInput();
         }
 
         $domain = $tenant->domains()->first()?->domain;
         $port = $request->getPort();
         $portSuffix = in_array($port, [80, 443], true) ? '' : ":{$port}";
 
-        return redirect("http://{$domain}{$portSuffix}/admin/login");
+        return redirect("http://{$domain}{$portSuffix}/admin/login?email=" . urlencode($validated['email']));
+    }
+
+    /**
+     * Busca en qué tenant vive un correo, recorriendo cada base de datos.
+     * Sencillo y correcto para la escala actual (decenas de tenants); si el
+     * número de empresas crece mucho, conviene mantener un índice central
+     * (tabla correo → tenant_id) actualizado al crear/invitar usuarios en
+     * vez de recorrerlos todos en cada login.
+     */
+    private function findTenantForEmail(string $email): ?Tenant
+    {
+        foreach (Tenant::all() as $tenant) {
+            tenancy()->initialize($tenant);
+
+            $exists = User::where('email', $email)->exists();
+
+            tenancy()->end();
+
+            if ($exists) {
+                return $tenant;
+            }
+        }
+
+        return null;
     }
 }

@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(\App\Filament\Pages\Auth\Login::class)
             ->passwordReset()
             ->brandLogo(asset('images/inventary-logo.svg'))
             ->darkModeBrandLogo(asset('images/inventary-logo-dark.svg'))

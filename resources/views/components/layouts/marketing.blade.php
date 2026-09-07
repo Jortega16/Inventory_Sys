@@ -7,9 +7,9 @@
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
-    <header class="border-b border-slate-200 bg-white">
-        <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+<body class="flex min-h-screen flex-col bg-slate-50 text-slate-900 antialiased">
+    <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
             <a href="{{ route('home') }}" aria-label="{{ config('app.name') }} — Inicio">
                 <img src="{{ asset('images/inventary-logo.svg') }}"
                      alt="{{ config('app.name') }}"
@@ -18,9 +18,9 @@
                      alt=""
                      class="h-9 w-9 sm:hidden">
             </a>
-            <nav class="flex gap-3 text-sm">
-                <a href="{{ route('workspace.find') }}" class="px-4 py-2 rounded-md hover:bg-slate-100">Iniciar sesión</a>
-                <a href="{{ route('tenant.register') }}" class="px-4 py-2 rounded-md bg-amber-500 text-white hover:bg-amber-600">Crear cuenta gratis</a>
+            <nav class="flex items-center gap-1 text-sm sm:gap-3">
+                <a href="{{ route('workspace.find') }}" class="rounded-lg px-3 py-2 font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-950 sm:px-4">Ingresar</a>
+                <a href="{{ route('tenant.register') }}" class="rounded-lg bg-amber-500 px-3 py-2 font-semibold text-slate-950 shadow-sm transition hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 sm:px-4">Crear cuenta gratis</a>
             </nav>
         </div>
     </header>
@@ -29,8 +29,8 @@
         {{ $slot }}
     </main>
 
-    <footer class="border-t border-slate-200 py-6 text-center text-sm text-slate-500">
-        &copy; {{ date('Y') }} {{ config('app.name') }} — Gestión de inventario multi-empresa.
+    <footer class="border-t border-slate-200 bg-white py-8 text-center text-sm text-slate-500">
+        &copy; {{ date('Y') }} {{ config('app.name') }} — Inventario claro, negocios bajo control.
     </footer>
 </body>
 </html>

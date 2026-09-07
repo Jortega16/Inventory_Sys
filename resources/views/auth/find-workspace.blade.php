@@ -2,7 +2,7 @@
     <section class="max-w-md mx-auto px-6 py-16">
         <h1 class="text-2xl font-bold text-slate-900">Iniciar sesión</h1>
         <p class="mt-2 text-sm text-slate-600">
-            Escribe el nombre de tu empresa para ir a tu espacio de trabajo.
+            Escribe tu correo y te llevamos directo a tu empresa.
         </p>
 
         @if (session('status'))
@@ -24,8 +24,8 @@
         <form method="POST" action="{{ route('workspace.find.store') }}" class="mt-6 space-y-4">
             @csrf
             <div>
-                <label class="block text-sm font-medium text-slate-700">Nombre de la empresa</label>
-                <input type="text" name="company" value="{{ old('company') }}" required autofocus
+                <label class="block text-sm font-medium text-slate-700">Correo</label>
+                <input type="email" name="email" value="{{ old('email') }}" required autofocus
                        class="mt-1 w-full rounded-md border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
             </div>
             <button type="submit"
