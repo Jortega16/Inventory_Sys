@@ -1,0 +1,6 @@
+{
+    "Catalog": true,
+    "Warehouse": true,
+    "Purchasing": true,
+    "Sales": true
+}
