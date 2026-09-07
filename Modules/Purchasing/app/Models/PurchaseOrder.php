@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace Modules\Purchasing\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
+use Modules\Purchasing\Database\Factories\PurchaseOrderFactory;
 use Modules\Warehouse\Models\StockLevel;
 use Modules\Warehouse\Models\Warehouse;
 
 class PurchaseOrder extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'number',
         'supplier_id',
@@ -52,6 +56,11 @@ class PurchaseOrder extends Model
     public function items(): HasMany
     {
         return $this->hasMany(PurchaseOrderItem::class);
+    }
+
+    protected static function newFactory(): PurchaseOrderFactory
+    {
+        return PurchaseOrderFactory::new();
     }
 
     /**

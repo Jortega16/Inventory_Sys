@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Modules\Catalog\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Catalog\Database\Factories\ProductFactory;
 use Modules\Warehouse\Models\StockLevel;
 
 class Product extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'sku',
         'name',
@@ -33,6 +37,11 @@ class Product extends Model
     public function stockLevels(): HasMany
     {
         return $this->hasMany(StockLevel::class);
+    }
+
+    protected static function newFactory(): ProductFactory
+    {
+        return ProductFactory::new();
     }
 
     /**

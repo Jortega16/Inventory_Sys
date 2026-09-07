@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace Modules\Sales\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Modules\Sales\Database\Factories\SaleOrderFactory;
 use Modules\Warehouse\Models\StockLevel;
 use Modules\Warehouse\Models\Warehouse;
 
 class SaleOrder extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'number',
         'customer_id',
@@ -51,6 +55,11 @@ class SaleOrder extends Model
     public function items(): HasMany
     {
         return $this->hasMany(SaleOrderItem::class);
+    }
+
+    protected static function newFactory(): SaleOrderFactory
+    {
+        return SaleOrderFactory::new();
     }
 
     /**
