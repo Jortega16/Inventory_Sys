@@ -47,8 +47,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           # El composer.json dice ^8.3, pero composer.lock trae symfony 8.1.x
-          # (requiere PHP >=8.4.1) — 8.5 es lo que corre el proyecto localmente.
-          php-version: "8.5"
+          # (requiere PHP >=8.4.1). Se usa 8.4 en vez de la 8.5 real de
+          # producción porque setup-php todavía no tiene un build 8.5
+          # precompilado — compilarla desde código fuente en CI es
+          # demasiado lento. 8.4 satisface el mismo requisito mínimo.
+          php-version: "8.4"
           extensions: mbstring, bcmath, pdo_pgsql, intl, zip, gd
           coverage: none
 
