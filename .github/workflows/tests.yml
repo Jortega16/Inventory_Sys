@@ -9,6 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     services:
       postgres:
@@ -74,13 +75,6 @@ jobs:
 
       - name: Generate application key
         run: php artisan key:generate --force
-
-      - name: Wait for Postgres
-        run: |
-          until pg_isready -h 127.0.0.1 -p 5432 -U sail; do
-            echo "Waiting for postgres..."
-            sleep 2
-          done
 
       - name: Run test suite
         run: php artisan test
