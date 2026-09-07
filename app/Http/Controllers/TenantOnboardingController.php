@@ -46,7 +46,8 @@ class TenantOnboardingController extends Controller
         $domain = "{$slug}.localhost";
 
         // Crear el tenant dispara CreateDatabase + MigrateDatabase (ver TenancyServiceProvider).
-        $tenant = Tenant::create(['id' => $slug]);
+        // Toda cuenta nueva arranca en el plan gratuito (ver config/plans.php).
+        $tenant = Tenant::create(['id' => $slug, 'plan' => 'free']);
         $tenant->domains()->create(['domain' => $domain]);
 
         tenancy()->initialize($tenant);
