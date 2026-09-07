@@ -36,6 +36,11 @@ class TenantRolesSeeder extends Seeder
             'purchasing.view', 'purchasing.create', 'purchasing.update',
             'warehouse.view',
         ],
+        'Vendedor' => [
+            'catalog.view',
+            'warehouse.view',
+            'sales.view', 'sales.create', 'sales.update',
+        ],
         'Solo lectura' => ['catalog.view', 'warehouse.view', 'purchasing.view', 'sales.view'],
     ];
 

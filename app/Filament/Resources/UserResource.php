@@ -70,11 +70,11 @@ class UserResource extends Resource
                 ->label('Contraseña')
                 ->password()
                 ->revealable()
-                ->required(fn (string $context) => $context === 'create')
                 ->minLength(8)
                 ->dehydrateStateUsing(fn (?string $state) => Hash::make($state))
                 ->dehydrated(fn (?string $state) => filled($state))
-                ->helperText(fn (string $context) => $context === 'edit' ? 'Déjalo vacío para no cambiarla.' : null),
+                ->visible(fn (string $context) => $context === 'edit')
+                ->helperText('Déjalo vacío para no cambiarla.'),
             Select::make('roles')
                 ->label('Rol')
                 ->relationship('roles', 'name')

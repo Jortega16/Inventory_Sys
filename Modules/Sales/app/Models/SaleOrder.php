@@ -78,7 +78,7 @@ class SaleOrder extends Model
             }
 
             foreach ($this->items as $item) {
-                StockLevel::adjust($item->product_id, $this->warehouse_id, -$item->quantity);
+                StockLevel::adjust($item->product_id, $this->warehouse_id, -$item->quantity, 'sale', $this);
             }
 
             $this->update(['status' => 'confirmed', 'confirmed_at' => now()]);

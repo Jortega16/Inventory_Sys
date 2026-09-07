@@ -50,8 +50,8 @@ class StockTransfer extends Model
 
         static::created(function (StockTransfer $transfer) {
             DB::transaction(function () use ($transfer) {
-                StockLevel::adjust($transfer->product_id, $transfer->from_warehouse_id, -$transfer->quantity);
-                StockLevel::adjust($transfer->product_id, $transfer->to_warehouse_id, $transfer->quantity);
+                StockLevel::adjust($transfer->product_id, $transfer->from_warehouse_id, -$transfer->quantity, 'transfer_out', $transfer);
+                StockLevel::adjust($transfer->product_id, $transfer->to_warehouse_id, $transfer->quantity, 'transfer_in', $transfer);
             });
         });
     }

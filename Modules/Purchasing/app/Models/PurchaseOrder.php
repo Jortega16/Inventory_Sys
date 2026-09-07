@@ -66,7 +66,10 @@ class PurchaseOrder extends Model
 
         DB::transaction(function () {
             foreach ($this->items as $item) {
-                StockLevel::adjust($item->product_id, $this->warehouse_id, $item->quantity);
+                $priorTotalStock = $item->product?->totalStock() ?? 0;
+
+                StockLevel::adjust($item->product_id, $this->warehouse_id, $item->quantity, 'purchase', $this);
+                $item->product?->applyPurchaseCost($item->quantity, (float) $item->unit_cost, $priorTotalStock);
             }
 
             $this->update(['status' => 'received', 'received_at' => now()]);

@@ -28,17 +28,40 @@ class StockLevel extends Model
 
     /**
      * Suma (o resta, con $delta negativo) cantidad al stock de un producto
-     * en un almacén, creando la fila si todavía no existe.
+     * en un almacén, creando la fila si todavía no existe. Registra el
+     * movimiento en stock_movements para trazabilidad/auditoría.
+     *
+     * @param  string  $type  purchase|sale|transfer_in|transfer_out|adjustment
+     * @param  \Illuminate\Database\Eloquent\Model|null  $reference  Modelo relacionado (orden de compra, venta, transferencia...)
      */
-    public static function adjust(int|string $productId, int|string $warehouseId, int $delta): self
-    {
+    public static function adjust(
+        int|string $productId,
+        int|string $warehouseId,
+        int $delta,
+        string $type = 'adjustment',
+        ?Model $reference = null,
+        ?string $note = null,
+    ): self {
         $level = static::firstOrCreate(
             ['product_id' => (int) $productId, 'warehouse_id' => (int) $warehouseId],
             ['quantity' => 0],
         );
 
         $level->increment('quantity', $delta);
+        $level = $level->fresh();
 
-        return $level->fresh();
+        StockMovement::create([
+            'product_id' => (int) $productId,
+            'warehouse_id' => (int) $warehouseId,
+            'quantity_delta' => $delta,
+            'quantity_after' => $level->quantity,
+            'type' => $type,
+            'reference_type' => $reference?->getMorphClass(),
+            'reference_id' => $reference?->getKey(),
+            'note' => $note,
+            'user_id' => auth()->id(),
+        ]);
+
+        return $level;
     }
 }

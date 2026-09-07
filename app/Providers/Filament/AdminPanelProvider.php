@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->passwordReset()
             ->brandLogo(asset('images/inventary-logo.svg'))
             ->darkModeBrandLogo(asset('images/inventary-logo-dark.svg'))
             ->brandLogoHeight('2.5rem')
@@ -42,13 +43,15 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: base_path('Modules/Purchasing/app/Filament/Resources'), for: 'Modules\\Purchasing\\Filament\\Resources')
             ->discoverResources(in: base_path('Modules/Sales/app/Filament/Resources'), for: 'Modules\\Sales\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverPages(in: base_path('Modules/Warehouse/app/Filament/Pages'), for: 'Modules\\Warehouse\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                \App\Filament\Widgets\InventoryOverview::class,
+                \App\Filament\Widgets\LowStockWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
